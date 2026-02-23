@@ -189,7 +189,7 @@ async def rpa_status():
 async def rpa_proxy(path: str, request: Request):
     """Proxy commands to RPA Gateway"""
     if not _rpa_state["url"]:
-        raise HTTPException(status_code=503, detail="RPA nao registrado. Aguardando registro do Termux.")
+        return {"error": "RPA nao registrado", "detail": "Aguardando registro do Termux via tunnel serveo"}
 
     target_url = f"{_rpa_state['url']}/{path}"
 
