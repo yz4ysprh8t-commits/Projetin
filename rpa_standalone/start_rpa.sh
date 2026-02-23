@@ -1,10 +1,18 @@
 #!/bin/bash
-CENTRAL_URL="https://6796491f-35bb-4f2e-b91f-c64599e7ab40-00-5r35an8zq9yv.picard.replit.dev"
+# =============================================================================
+# BRANCA DE NEVE 1.0 - RPA Startup Script
+# Adaptado para Emergent Platform
+# =============================================================================
+
+# URL da API Central no Emergent (ALTERE SE NECESSÁRIO)
+CENTRAL_URL="https://project-staging.preview.emergentagent.com/api"
 RPA_PORT=8080
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$SCRIPT_DIR"
 
 echo "=== BRANCA DE NEVE 1.0 - Startup Automatico ==="
+echo ""
+echo "CENTRAL_URL: $CENTRAL_URL"
 echo ""
 
 # ===== AUTO-UPDATE =====
@@ -138,6 +146,9 @@ print('[CONFIG] URLs salvas')
             echo ""
             echo "  Sistema 100% automatico!"
             echo "  Nenhuma acao manual necessaria."
+            echo ""
+            echo "  Acesse a API Central para ver logs e status:"
+            echo "  $CENTRAL_URL/rpa/status"
             echo ""
         else
             echo "[SERVEO] URL nao detectada apos 20s. Reconectando..."
