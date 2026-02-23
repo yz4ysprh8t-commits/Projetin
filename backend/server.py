@@ -277,6 +277,52 @@ async def rpa_atualizar():
 
 
 # =============================================================================
+# BRIDGE - COMUNICAÇÃO ENTRE AGENTES
+# =============================================================================
+
+_message_queue = []
+_all_messages = []
+
+class BridgeMessage(BaseModel):
+    from_agent: str = Field(alias="from")
+    content: str
+
+@api_router.get("/bridge/health")
+async def bridge_health():
+    """Check bridge status"""
+    return {"status": "online", "queue_size": len(_message_queue), "total_messages": len(_all_messages)}
+
+@api_router.post("/bridge/msg")
+async def bridge_send(msg: BridgeMessage):
+    """Send message to queue"""
+    message = {"from": msg.from_agent, "content": msg.content, "timestamp": time.time()}
+    _message_queue.append(message)
+    _all_messages.append(message)
+    logger.info(f"[BRIDGE] Message from {msg.from_agent}: {msg.content[:100]}")
+    return {"success": True, "queued": len(_message_queue)}
+
+@api_router.get("/bridge/msg")
+async def bridge_receive():
+    """Get and remove first message from queue"""
+    if _message_queue:
+        msg = _message_queue.pop(0)
+        return msg
+    return {"empty": True}
+
+@api_router.get("/bridge/all")
+async def bridge_all():
+    """Get all messages without removing"""
+    return {"messages": _all_messages[-50:]}  # Last 50 messages
+
+@api_router.delete("/bridge/clear")
+async def bridge_clear():
+    """Clear all messages"""
+    _message_queue.clear()
+    _all_messages.clear()
+    return {"success": True}
+
+
+# =============================================================================
 # LOGS AND DEBUG
 # =============================================================================
 
