@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import './App.css';
 
 const API_URL = process.env.REACT_APP_BACKEND_URL || '';
 
