@@ -1,0 +1,8 @@
+{
+    "mode": "adb",
+    "adb_path": "adb",
+    "device_id": "127.0.0.1:5555",
+    "pin": "222222",
+    "audit_interval": 10,
+    "package": "com.satsails.Satsails"
+}
