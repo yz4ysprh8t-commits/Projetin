@@ -1,51 +1,60 @@
 # Branca de Neve 1.0 - PRD
 
+## Data: 23/02/2026 02:30 UTC
+
 ## Status Atual
 - **RPA**: ✅ Online e funcionando
 - **API Central**: ✅ Rodando no Emergent
 - **Bot Telegram**: ✅ Pronto para conectar
+- **Documentação**: ✅ Completa (1790 linhas)
 
-## Configuração para o Bot
+## Configuração para Conectar o Bot
 
-O bot precisa apenas desta variável de ambiente para conectar ao RPA:
+```bash
+export API_CENTRAL_URL="https://project-staging.preview.emergentagent.com/api"
+export RPA_HMAC_SECRET="branca_neve_hmac_2026_s3cr3t"
 ```
-API_CENTRAL_URL=https://project-staging.preview.emergentagent.com/api
-```
 
-## Limites Implementados (AVISOS)
-Os avisos de limite foram adicionados em `/services/bot_telegram/cogs/add_credits.py`:
+## URLs Importantes
+
+| Serviço | URL |
+|---------|-----|
+| API Central | https://project-staging.preview.emergentagent.com/api |
+| Frontend | https://project-staging.preview.emergentagent.com |
+| RPA Status | https://project-staging.preview.emergentagent.com/api/rpa/status |
+
+## Documentação Completa
+
+Arquivo: `/replit_project/Iconeszip/HISTORICO_DESENVOLVIMENTO.md`
+
+### Conteúdo (1790 linhas):
+1. Visão Geral do Sistema
+2. Arquitetura Completa
+3. API Central - Todos os Endpoints
+4. RPA Gateway - Endpoints Completos (15+)
+5. Bot Telegram - Comandos e Funcionalidades
+6. Fluxo de Pagamento PIX
+7. Configurações e Variáveis de Ambiente
+8. Segurança e Autenticação HMAC
+9. Deploy e Operação
+10. Troubleshooting
+
+## Limites Implementados (Avisos)
+
 - Primeira compra por CPF: máx R$ 100
-- Por QR Code: máx R$ 3.000
+- Por QR Code: máx R$ 3.000  
 - Por dia (CPF/CNPJ): máx R$ 6.000
 
-**NOTA**: Apenas avisos foram implementados, não validação real.
+## Arquitetura
 
-## Arquitetura de Conexão
 ```
-[Bot Telegram] 
-    ↓ (API_CENTRAL_URL)
-[API Central - Emergent]
-    ↓ (proxy)
-[RPA Gateway - Termux/Emulador]
-    ↓ (ADB)
-[SatSails App]
+[Bot Telegram] → [API Central Emergent] → [Túnel Serveo] → [RPA Termux] → [SatSails]
 ```
 
-## Endpoints Principais
+## Changelog
 
-### API Central (Emergent)
-- `GET /api/rpa/status` - Status do RPA
-- `POST /api/rpa/register` - Registrar RPA
-- `GET /api/rpa/cmd/{path}` - Proxy para RPA
-- `GET /api/bridge/*` - Ponte de comunicação
-
-### RPA Gateway (Termux)
-- `POST /pagar` - Criar pagamento PIX
-- `GET /status/{id}` - Consultar status
-- `GET /pendentes` - Listar pendentes
-- `GET /health` - Health check
-
-## Próximos Passos
-1. [ ] Implementar validação real dos limites
-2. [ ] Adicionar tracking de CPF/CNPJ
-3. [ ] Sistema de alertas quando limite atingido
+### v2.0.0-emergent (23/02/2026)
+- Migração para Emergent Platform
+- Frontend de monitoramento React
+- Sistema de Bridge
+- Documentação completa (962 linhas novas)
