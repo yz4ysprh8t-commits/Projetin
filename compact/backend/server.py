@@ -277,6 +277,33 @@ async def rpa_atualizar():
 
 
 # =============================================================================
+# DOWNLOAD DO PROJETO COMPLETO
+# =============================================================================
+
+@api_router.get("/download/projeto")
+async def download_projeto_completo():
+    """Download do projeto Branca de Neve completo"""
+    import tarfile
+    import io
+    
+    projeto_path = Path("/app/compact/replit_project/Iconeszip")
+    
+    if not projeto_path.exists():
+        raise HTTPException(status_code=404, detail="Projeto nao encontrado")
+    
+    # Usar arquivo pré-compactado se existir
+    tar_path = Path("/tmp/branca_de_neve_completo.tar.gz")
+    if tar_path.exists():
+        return StreamingResponse(
+            open(tar_path, "rb"),
+            media_type="application/gzip",
+            headers={"Content-Disposition": "attachment; filename=branca_de_neve_1.0_completo.tar.gz"}
+        )
+    
+    raise HTTPException(status_code=404, detail="Arquivo de download nao encontrado")
+
+
+# =============================================================================
 # BRIDGE - COMUNICAÇÃO ENTRE AGENTES
 # =============================================================================
 
