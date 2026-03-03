@@ -9,6 +9,7 @@ from typing import Optional, Tuple, List, Dict
 class DeviceClient:
     MODE_ADB = "adb"
     MODE_LOCAL = "local"
+    MODE_TERMUX = "termux"
 
     def __init__(self, mode: str = "adb", adb_path: str = "adb", device_id: str = None):
         self.mode = mode
@@ -19,6 +20,7 @@ class DeviceClient:
         self._last_xml_time = 0
         self._xml_cache_ttl = 0.3
         self._connected = False
+        self._su_path = "/system/xbin/su"  # Path to su binary for root commands
 
     def _ensure_connected(self):
         if self._connected:
