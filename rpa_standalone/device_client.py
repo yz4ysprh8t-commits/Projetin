@@ -65,9 +65,16 @@ class DeviceClient:
             print(f"   [DeviceClient] Erro: {e}")
             return subprocess.CompletedProcess(full_cmd, 1, stdout="", stderr=str(e))
 
-    def shell(self, cmd: str, timeout: int = 10) -> str:
+    def shell(self, cmd: str, timeout: int = 10, use_root: bool = False) -> str:
         if self.mode == self.MODE_ADB:
             res = self._run(f"shell {cmd}", timeout=timeout)
+        elif self.mode == self.MODE_TERMUX or self.mode == "termux":
+            # In Termux, use su for root commands
+            if use_root:
+                full_cmd = f'{self._su_path} -c "{cmd}"'
+            else:
+                full_cmd = cmd
+            res = self._run(full_cmd, timeout=timeout)
         else:
             res = self._run(cmd, timeout=timeout)
         return res.stdout.strip()
