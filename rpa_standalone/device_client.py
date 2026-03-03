@@ -94,10 +94,16 @@ class DeviceClient:
         time.sleep(0.15)
 
     def input_text(self, text: str):
-        self.shell(f"input text {text}")
+        if self.mode == "termux" or self.mode == self.MODE_TERMUX:
+            self.shell(f"input text '{text}'", use_root=True)
+        else:
+            self.shell(f"input text {text}")
 
     def keyevent(self, key: int):
-        self.shell(f"input keyevent {key}")
+        if self.mode == "termux" or self.mode == self.MODE_TERMUX:
+            self.shell(f"input keyevent {key}", use_root=True)
+        else:
+            self.shell(f"input keyevent {key}")
 
     def key_back(self):
         self.keyevent(4)
@@ -111,16 +117,28 @@ class DeviceClient:
                 self.keyevent(67)
         else:
             keys = " ".join(["67"] * times)
-            self.shell(f"input keyevent {keys}")
+            if self.mode == "termux" or self.mode == self.MODE_TERMUX:
+                self.shell(f"input keyevent {keys}", use_root=True)
+            else:
+                self.shell(f"input keyevent {keys}")
 
     def swipe(self, x1: int, y1: int, x2: int, y2: int, duration: int = 300):
-        self.shell(f"input swipe {x1} {y1} {x2} {y2} {duration}")
+        if self.mode == "termux" or self.mode == self.MODE_TERMUX:
+            self.shell(f"input swipe {x1} {y1} {x2} {y2} {duration}", use_root=True)
+        else:
+            self.shell(f"input swipe {x1} {y1} {x2} {y2} {duration}")
 
     def open_app(self, package: str):
-        self.shell(f"monkey -p {package} -c android.intent.category.LAUNCHER 1")
+        if self.mode == "termux" or self.mode == self.MODE_TERMUX:
+            self.shell(f"monkey -p {package} -c android.intent.category.LAUNCHER 1", use_root=True)
+        else:
+            self.shell(f"monkey -p {package} -c android.intent.category.LAUNCHER 1")
 
     def force_stop(self, package: str):
-        self.shell(f"am force-stop {package}")
+        if self.mode == "termux" or self.mode == self.MODE_TERMUX:
+            self.shell(f"am force-stop {package}", use_root=True)
+        else:
+            self.shell(f"am force-stop {package}")
 
     def screencap(self, local_path: str) -> bool:
         remote_path = "/sdcard/screen_rpa.png"
