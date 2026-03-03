@@ -195,17 +195,37 @@ class DeviceClient:
             return self._last_xml
 
         try:
-            self.shell("uiautomator dump --compressed /sdcard/view.xml", timeout=8)
-            xml_content = self.shell("cat /sdcard/view.xml", timeout=5)
+            # In Termux mode, use root for uiautomator
+            if self.mode == "termux" or self.mode == self.MODE_TERMUX:
+                result = self.shell("uiautomator dump /sdcard/view.xml && cat /sdcard/view.xml", timeout=15, use_root=True)
+                # Extract just the XML part (after "dumped to:" message)
+                if "<?xml" in result:
+                    xml_start = result.find("<?xml")
+                    xml_content = result[xml_start:]
+                else:
+                    xml_content = result
+            else:
+                self.shell("uiautomator dump --compressed /sdcard/view.xml", timeout=8)
+                xml_content = self.shell("cat /sdcard/view.xml", timeout=5)
 
-            if xml_content and len(xml_content) > 50:
+            if xml_content and len(xml_content) > 50 and "<?xml" in xml_content:
                 self._last_xml = xml_content
                 self._last_xml_time = now
                 return xml_content
             else:
-                self.shell("uiautomator dump /sdcard/view.xml", timeout=8)
-                xml_content = self.shell("cat /sdcard/view.xml", timeout=5)
-                if xml_content and len(xml_content) > 50:
+                # Fallback without --compressed
+                if self.mode == "termux" or self.mode == self.MODE_TERMUX:
+                    result = self.shell("uiautomator dump /sdcard/view.xml && cat /sdcard/view.xml", timeout=15, use_root=True)
+                    if "<?xml" in result:
+                        xml_start = result.find("<?xml")
+                        xml_content = result[xml_start:]
+                    else:
+                        xml_content = result
+                else:
+                    self.shell("uiautomator dump /sdcard/view.xml", timeout=8)
+                    xml_content = self.shell("cat /sdcard/view.xml", timeout=5)
+                    
+                if xml_content and len(xml_content) > 50 and "<?xml" in xml_content:
                     self._last_xml = xml_content
                     self._last_xml_time = now
                     return xml_content
@@ -214,7 +234,7 @@ class DeviceClient:
                 return self._last_xml or ""
         except Exception as e:
             print(f"   [DeviceClient] Erro ao ler XML: {e}")
-            self.shell("pkill uiautomator 2>/dev/null")
+            self.shell("pkill uiautomator 2>/dev/null", use_root=True)
             return self._last_xml or ""
 
     def find_element(self, text: str = None, content_desc: str = None,
