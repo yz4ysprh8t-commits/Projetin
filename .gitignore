@@ -37,3 +37,7 @@ test_reports/
 
 # Emergent (can be removed if not using)
 .emergent/
+-e 
+# Environment files
+*.env
+*.env.*
