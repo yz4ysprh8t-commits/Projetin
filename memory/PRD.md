@@ -1,60 +1,43 @@
-# Branca de Neve 1.0 - PRD
+# Branca de Neve 1.0 - PRD Atualizado
 
-## Data: 23/02/2026 02:30 UTC
+## Data: 03/03/2026
 
-## Status Atual
-- **RPA**: ✅ Online e funcionando
-- **API Central**: ✅ Rodando no Emergent
-- **Bot Telegram**: ✅ Pronto para conectar
-- **Documentação**: ✅ Completa (1790 linhas)
+## Status: Projeto Independente
 
-## Configuração para Conectar o Bot
+### O que foi feito:
+- ✅ Projeto clonado do GitHub
+- ✅ Removida dependência `emergentintegrations` 
+- ✅ Criados arquivos Docker (Dockerfile backend/frontend)
+- ✅ Criado docker-compose.yml para orquestração
+- ✅ Criados .env.example para configuração
+- ✅ Documentação completa em SETUP_INDEPENDENTE.md
+- ✅ Script start.sh para início rápido
+- ✅ .gitignore atualizado
 
-```bash
-export API_CENTRAL_URL="https://project-staging.preview.emergentagent.com/api"
-export RPA_HMAC_SECRET="branca_neve_hmac_2026_s3cr3t"
+### Estrutura Final:
+```
+branca_de_neve/
+├── backend/               # API FastAPI
+│   ├── server.py         
+│   ├── requirements.txt  
+│   ├── Dockerfile        
+│   └── .env.example      
+├── frontend/              # React App
+│   ├── src/              
+│   ├── Dockerfile        
+│   └── .env.example      
+├── rpa_standalone/        # RPA Termux
+├── docker-compose.yml     
+├── start.sh              
+├── SETUP_INDEPENDENTE.md  
+└── README.md             
 ```
 
-## URLs Importantes
+### Como usar:
+1. Docker: `docker-compose up -d`
+2. Manual: Seguir SETUP_INDEPENDENTE.md
 
-| Serviço | URL |
-|---------|-----|
-| API Central | https://project-staging.preview.emergentagent.com/api |
-| Frontend | https://project-staging.preview.emergentagent.com |
-| RPA Status | https://project-staging.preview.emergentagent.com/api/rpa/status |
-
-## Documentação Completa
-
-Arquivo: `/replit_project/Iconeszip/HISTORICO_DESENVOLVIMENTO.md`
-
-### Conteúdo (1790 linhas):
-1. Visão Geral do Sistema
-2. Arquitetura Completa
-3. API Central - Todos os Endpoints
-4. RPA Gateway - Endpoints Completos (15+)
-5. Bot Telegram - Comandos e Funcionalidades
-6. Fluxo de Pagamento PIX
-7. Configurações e Variáveis de Ambiente
-8. Segurança e Autenticação HMAC
-9. Deploy e Operação
-10. Troubleshooting
-
-## Limites Implementados (Avisos)
-
-- Primeira compra por CPF: máx R$ 100
-- Por QR Code: máx R$ 3.000  
-- Por dia (CPF/CNPJ): máx R$ 6.000
-
-## Arquitetura
-
-```
-[Bot Telegram] → [API Central Emergent] → [Túnel Serveo] → [RPA Termux] → [SatSails]
-```
-
-## Changelog
-
-### v2.0.0-emergent (23/02/2026)
-- Migração para Emergent Platform
-- Frontend de monitoramento React
-- Sistema de Bridge
-- Documentação completa (962 linhas novas)
+### URLs (quando rodando local):
+- Frontend: http://localhost:3000
+- Backend: http://localhost:8001
+- API Docs: http://localhost:8001/docs
