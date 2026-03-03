@@ -80,11 +80,17 @@ class DeviceClient:
         return res.stdout.strip()
 
     def tap(self, x: int, y: int):
-        self.shell(f"input tap {x} {y}")
+        if self.mode == "termux" or self.mode == self.MODE_TERMUX:
+            self.shell(f"input tap {x} {y}", use_root=True)
+        else:
+            self.shell(f"input tap {x} {y}")
         time.sleep(0.15)
 
     def tap_coord_string(self, coord: str):
-        self.shell(f"input tap {coord}")
+        if self.mode == "termux" or self.mode == self.MODE_TERMUX:
+            self.shell(f"input tap {coord}", use_root=True)
+        else:
+            self.shell(f"input tap {coord}")
         time.sleep(0.15)
 
     def input_text(self, text: str):
