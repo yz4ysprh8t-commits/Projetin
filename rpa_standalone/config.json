@@ -1,0 +1,8 @@
+{
+    "mode": "termux",
+    "adb_path": "",
+    "device_id": "",
+    "pin": "222222",
+    "audit_interval": 10,
+    "package": "com.satsails.Satsails"
+}

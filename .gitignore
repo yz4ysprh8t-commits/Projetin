@@ -1,6 +1,55 @@
+# Dependencies
+node_modules/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Environment files (keep .example)
+.env
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+mongo_data/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test reports
+test_reports/
+
+# Emergent (can be removed if not using)
+.emergent/
 -e 
 # Environment files
 *.env
 *.env.*
-compact.zip
-compact/replit_project/Iconeszip/.git/objects/72/21847c1b816a31394a709285926436bdf4f21b
+-e 
+# Environment files
+*.env
+*.env.*
+-e 
+# Environment files
+*.env
+*.env.*
+-e 
+# Environment files
+*.env
+*.env.*
